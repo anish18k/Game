@@ -22,12 +22,10 @@
 <div id="game">
   <div id="player"></div>
 
-  <!--  AUDIO FX (replace the src with your own files/links) -->
   <audio id="soundStart"   src="start.mp3"     preload="auto"></audio>
   <audio id="soundHit"     src="assets/hit.mp3"       preload="auto"></audio>
   <audio id="soundGameOver"src="over.mp3"  preload="auto"></audio>
 
-  <!--   OVERLAYS   -->
   <div id="startScreen">
     <h2>Tap to Start</h2>
     <button onclick="startGame()">Start Game</button>
@@ -41,7 +39,7 @@
 </div>
 
 <script>
-/* ---------- DOM SHORTCUTS ---------- */
+
 const player = document.getElementById("player"),
       game   = document.getElementById("game"),
       scoreTxt      = document.getElementById("score"),
@@ -49,31 +47,26 @@ const player = document.getElementById("player"),
       gameOverScr   = document.getElementById("gameOverScreen"),
       finalScoreTxt = document.getElementById("finalScore");
 
-/* ---------- SOUND HANDLES ---------- */
 const sfxStart    = document.getElementById("soundStart"),
       sfxHit      = document.getElementById("soundHit"),
       sfxGameOver = document.getElementById("soundGameOver");
 function play(sound){
   sound.currentTime = 0;
-  sound.play().catch(()=>{});           // ignore autoplay errors
+  sound.play().catch(()=>{});           
 }
 
-/* ---------- CONFIG ---------- */
 const PLAYER_W = 50;
-const gravity      = -0.41;  // hang-time
+const gravity      = -0.41;
 const jumpVelocity = 12.3;
-let   gameSpeed    = 1.6,    // quick from the get-go
-      speedGain    = 0.15;   // ramps every 4 s
+let   gameSpeed    = 1.6,   
+      speedGain    = 0.15; 
 
-/* ---------- STATE ---------- */
 let playerY=0, velY=0, isJumping=false, isGameOver=false, score=0;
 let obstacleTimer, scoreTimer, speedTimer;
 
-/* ---------- INPUT ---------- */
 document.addEventListener("keydown", e=>{ if(e.code==="Space") jump(); });
 document.addEventListener("click", jump);
 
-/* ---------- MAIN LOOP ---------- */
 function gameLoop(){
   if(isGameOver) return;
   velY += gravity;
@@ -85,7 +78,6 @@ function gameLoop(){
   requestAnimationFrame(gameLoop);
 }
 
-/* ---------- ACTIONS ---------- */
 function jump(){
   if(isJumping || isGameOver) return;
   velY = jumpVelocity;
@@ -107,23 +99,22 @@ function createObstacle(){
     if(isGameOver){ clearInterval(chk); o.remove(); return; }
     const oLeft = o.offsetLeft, pLeft = player.offsetLeft;
     if(oLeft < pLeft+PLAYER_W && oLeft+w > pLeft && playerY < h){
-      play(sfxHit);              // 💥 collision sfx
+      play(sfxHit);             
       gameOver();
     }
     if(oLeft < -w){ clearInterval(chk); o.remove(); }
   },20);
 }
 
-/* ---------- GAME FLOW ---------- */
 function startGame(){
-  /* reset */
+  
   isGameOver = false; playerY = 0; velY = 0;
   gameSpeed = 1.6; score = 0; scoreTxt.textContent = "Score: 0";
   startScreen.style.display = "none";
   gameOverScr.style.display = "none";
   document.querySelectorAll(".obstacle").forEach(el=>el.remove());
 
-  play(sfxStart);                // ▶️ start sfx
+  play(sfxStart);               
   requestAnimationFrame(gameLoop);
   obstacleTimer = setInterval(createObstacle, 1000);
   scoreTimer    = setInterval(()=>{ if(!isGameOver){ score++; scoreTxt.textContent="Score: "+score; } },500);
@@ -146,21 +137,18 @@ function restartGame(){ startGame(); }
   <div class="watermark">Made by Anish</div>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">  
 <script>
-  /* …all the existing code above… */
+ 
 
   <script>
-  /* …everything above stays the same… */
 
   <script>
-  /* …everything above stays the same… */
 
   function restartGame () {
-    /* 🔇 stop any game-over sound that might still be playing */
+ 
     sfxGameOver.pause();
     sfxGameOver.currentTime = 0;
 
-    /* 🚀 jump straight into a fresh run
-       (startGame() will replay the start-game sound) */
+   
     startGame();
   }
 <script src="script.js"></script>
